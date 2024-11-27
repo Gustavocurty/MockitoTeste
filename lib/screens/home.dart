@@ -1,8 +1,12 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:ghibli/models/stationSelection.dart';
+import 'package:ghibli/screens/precipatation.dart';
 import 'package:ghibli/services/estacao/classStation.dart';
 import 'package:sizer/sizer.dart';
-
-import 'precipatation.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,51 +16,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? selectStationName;
+  int? selectStationId;
+
+  void selectedStation(String name, int id) {
+    setState(() {
+      selectStationName = name;
+      selectStationId = id;
+    });
+  }
+
   // Criação do modelo de escolha de estação
   Widget buildStationList(List<Measures> stations) {
     return Column(
       children: stations.map((station) {
         return GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PrecipitationPage(station: station),
-              ),
-            );
+            selectedStation(station.name, station.id);
           },
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Image.network(
-                      station.logo,
-                      width: 15.w,
-                      height: 15.w,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  SizedBox(width: 4.w),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        station.name,
-                        style: TextStyle(fontSize: 2.h, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 0.5.h),
-                      Text(
-                        station.location,
-                        style: TextStyle(fontSize: 1.8.h, color: Colors.grey[600]),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              SizedBox(height: 1.h),
-            ],
+          child: Container(
+            color: selectStationId == station.id
+                ? const Color.fromRGBO(211, 211, 211, 0.2)
+                : Colors.transparent,
+            child: StationChoice(
+              name: station.name,
+              imagePath: station.logo,
+              local: station.location,
+            ),
           ),
         );
       }).toList(),
@@ -65,30 +51,61 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Measures> estacoes = MockDatabase.getStations();
+    final List<Measures> estacoes = MockDatabase.getStations(); // Pega os dados das estações
 
     return Sizer(
       builder: (context, orientation, deviceType) {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Estações'),
+            backgroundColor: const Color.fromARGB(255, 44, 68, 80),
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Column(
-                children: [
-                  Text(
-                    'Escolha uma estação abaixo:',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 2.5.h,
+          body: Container(
+            width: 100.w,
+            height: 100.h,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Color.fromARGB(224, 50, 73, 86),
+                Color.fromARGB(255, 55, 85, 100)
+              ]),
+            ),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'Escolha uma estação abaixo:',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 2.5.h,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 2.h),
-                  
-                  buildStationList(estacoes),
-                ],
+                    SizedBox(height: 1.h),
+                    buildStationList(estacoes),
+                    SizedBox(height: 1.h),
+                    ElevatedButton(
+                      onPressed: selectStationId != null
+                          ? () {
+                              // Encontra a estação selecionada
+                              final selectedStation = estacoes.firstWhere(
+                                (station) => station.id == selectStationId,
+                              );
+
+                              // Navega para a página PrecipitationPage
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      PrecipitationPage(station: selectedStation),
+                                ),
+                              );
+                            }
+                          : null,
+                      child: Text("CONFIRMAR"),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

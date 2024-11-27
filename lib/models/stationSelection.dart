@@ -11,7 +11,7 @@ class StationChoice extends StatefulWidget {
       required this.local});
 
   final String name;
-  final Widget? imagePath;
+  final String imagePath;
   final String local;
 
   @override
@@ -22,15 +22,28 @@ class _StationChoiceState extends State<StationChoice> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(10.sp),
+      padding: EdgeInsets.all(5.sp),
       child: SizedBox(
         width: 100.w,
-        height: 15.h,
+        height: 12.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(width: 12.w, height: 12.w, child: widget.imagePath),
+
+            SizedBox(
+              width: 12.w,
+              height: 12.w,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Image.network(
+                  widget.imagePath,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+
             SizedBox(width: 5.w),
+
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,

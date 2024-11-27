@@ -26,7 +26,7 @@ class MockDatabase {
         id: 2,
         data: "25/01/1970",
         horario: "20h",
-        valor: "0 chuvas"
+        valor: "60 chuvas"
       ),
       Preciptation(
         id: 3,

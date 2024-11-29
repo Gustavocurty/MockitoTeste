@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:ghibli/models/stationSelection.dart';
-import 'package:ghibli/screens/precipatation.dart';
+import 'package:ghibli/screens/measures.dart';
 import 'package:ghibli/services/estacao/classStation.dart';
 import 'package:sizer/sizer.dart';
 
@@ -34,14 +32,17 @@ class _HomePageState extends State<HomePage> {
           onTap: () {
             selectedStation(station.name, station.id);
           },
-          child: Container(
-            color: selectStationId == station.id
-                ? const Color.fromRGBO(211, 211, 211, 0.2)
-                : Colors.transparent,
-            child: StationChoice(
-              name: station.name,
-              imagePath: station.logo,
-              local: station.location,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              color: selectStationId == station.id
+                  ? const Color.fromRGBO(211, 211, 211, 0.2)
+                  : Colors.transparent,
+              child: StationChoice(
+                name: station.name,
+                imagePath: station.logo,
+                local: station.location,
+              ),
             ),
           ),
         );
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, orientation, deviceType) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Estações'),
+            title: Text('Estações', style: TextStyle ( color: Colors.white ),),
             backgroundColor: const Color.fromARGB(255, 44, 68, 80),
           ),
           body: Container(
@@ -74,16 +75,22 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
                   children: [
+
                     Text(
                       'Escolha uma estação abaixo:',
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 2.5.h,
+                        color: Colors.white,
+                        fontSize: 3.h,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
+
                     SizedBox(height: 1.h),
+
                     buildStationList(estacoes),
+
                     SizedBox(height: 1.h),
+                    
                     ElevatedButton(
                       onPressed: selectStationId != null
                           ? () {
@@ -97,12 +104,29 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      PrecipitationPage(station: selectedStation),
+                                      MeasuresPage(station: selectedStation),
                                 ),
                               );
                             }
                           : null,
-                      child: Text("CONFIRMAR"),
+
+                      style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.blue,
+                  elevation: 4,
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                  minimumSize: Size(double.infinity, 6.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  ),
+                ),
+                child: Text(
+                  "CONFIRMAR",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 2.0.h,
+                  ),
+                ),
                     ),
                   ],
                 ),

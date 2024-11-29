@@ -11,9 +11,6 @@ class PrecipitationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(station.name),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -30,19 +27,27 @@ class PrecipitationPage extends StatelessWidget {
                 ),
               ),
             ),
+
             SizedBox(height: 16),
+
             Text(
               'Localização: ${station.location}',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
+
             SizedBox(height: 8),
+
             Text(
               'Sensores disponíveis:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
+
             SizedBox(height: 8),
-            ...station.sensors.map((sensor) => Text('- $sensor')).toList(),
+
+            ...station.sensors.map((sensor) => Text('- $sensor')),
+
             SizedBox(height: 16),
+            
             ElevatedButton(
               onPressed: () {
                 // Acessar mais informações

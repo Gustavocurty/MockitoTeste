@@ -3,5 +3,5 @@ import 'package:ghibli/appWidget.dart';
 
 void main() {
   WidgetsFlutterBinding;
-  runApp(AppWidget());
+  runApp(const AppWidget());
 }

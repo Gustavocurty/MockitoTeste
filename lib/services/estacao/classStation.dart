@@ -25,7 +25,7 @@ class MockDatabase {
         name: "Estação Sul", 
         logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe2aH24tnJ35O5EjUzNRb_W946TMcpKczO5g&s",
         location: 'Minas Gerais, MG', 
-        sensors: {"temperature", "preciptation", "photo"}, 
+        sensors: {"temperature", "precipitation", "photo"}, 
         infoUrl: "https://www.youtube.com/watch?v=UGJe1lEQrSg"
       ),
       Measures(
@@ -33,7 +33,7 @@ class MockDatabase {
         name: "Estação Norte", 
         logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4VZ7cod-WKzncO1pw_P5klwDaKBG-ncF7VQ&s",
         location: 'Rio de Janeiro, RJ', 
-        sensors: {"temperature", "preciptation"}, 
+        sensors: {"temperature", "precipitation"}, 
         infoUrl: "https://www.youtube.com/watch?v=UGJe1lEQrSg"
       ),
       Measures(
@@ -49,7 +49,15 @@ class MockDatabase {
         name: "Estação Leste",
         logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTBRp76PaB046iybc_0BbniiATDpRjYEwjhA&s",
         location: "Rio de Janeiro, RJ",
-        sensors: {"temperature"},
+        sensors: {"precipitation" , "photo"},
+        infoUrl: "https://www.dio.me/articles/trabalhando-com-mocks-em-dart-um-guia-completo",
+      ),
+      Measures(
+        id: 5,
+        name: "Estação Sudeoeste",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTBRp76PaB046iybc_0BbniiATDpRjYEwjhA&s",
+        location: "Minas Gerais, MG",
+        sensors: {"temperature", "photo", "precipitation"},
         infoUrl: "https://www.dio.me/articles/trabalhando-com-mocks-em-dart-um-guia-completo",
       ),
     ];

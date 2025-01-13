@@ -29,16 +29,16 @@ class MockDatabase {
         valor: "60 chuvas"
       ),
       Preciptation(
-        id: 3,
-        data: "--",
-        horario: "--",
-        valor: "--"
+        id: 4,
+        data: "25/01/1970",
+        horario: "20h",
+        valor: "60 chuvas"
       ),
       Preciptation(
-        id: 4,
-        data: "--",
-        horario: "--",
-        valor: "--"
+        id: 5,
+        data: "16/06/1976",
+        horario: "10h",
+        valor: "62 chuvas"
       ),
     ];
   }

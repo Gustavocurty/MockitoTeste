@@ -11,15 +11,14 @@ class TemperaturePage extends StatefulWidget {
 }
 
 class _TemperaturePageState extends State<TemperaturePage> {
-  final List<Temperature> tempMeasures =
-      MockDatabase.getTemperature(); // Pega as medidas da temperatura
+  final List<Temperature> tempMeasures = MockDatabaseTemp.getTemperature(); // Pega as medidas da temperatura
 
   Temperature? getTemperatureById(int id) {
     return tempMeasures.firstWhere(
       (temp) => temp.id == id,
       // ignore: cast_from_null_always_fails
       orElse: () => null as Temperature, // Retorna null se não encontrar o id
-    );
+    ); 
   }
 
   @override

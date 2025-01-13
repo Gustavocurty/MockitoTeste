@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ghibli/screens/navigatorPages/photoPage.dart';
 import 'package:ghibli/screens/navigatorPages/precipatation.dart';
 import 'package:ghibli/screens/navigatorPages/temperature.dart';
+import 'package:ghibli/services/measures/temperatureClass.dart';
 import 'package:sizer/sizer.dart';
 import '../services/estacao/classStation.dart';
 
@@ -17,6 +18,7 @@ class MeasuresPage extends StatefulWidget {
 }
 
 class _MeasuresPageState extends State<MeasuresPage> {
+  final List<Temperature> tempMeasures = MockDatabaseTemp.getTemperature();
   late double temperature; // Armazena a temperatura calculada
   int currentPageIndex = 0;
 
@@ -26,16 +28,26 @@ class _MeasuresPageState extends State<MeasuresPage> {
     temperature = _getTemperatureByStation(widget.station.id);
   }
 
-  double _getTemperatureByStation(int stationId) {
+  
+
+  double _getTemperatureByStation(int id) {
+    Temperature? getTemperatureById(int id) {
+      return tempMeasures.firstWhere(
+        (temp) => temp.id == id,
+        // ignore: cast_from_null_always_fails
+        orElse: () => null as Temperature, // Retorna null se não encontrar o id
+      );
+    }
+
+    final temperature = getTemperatureById(id);
     // Simulação de busca de temperatura com base no ID da estação
-    // Substitua por sua lógica de recuperação real
     final mockData = {
       1: 18.5,
       2: 22.0,
       3: 28.5,
       4: 25.0,
     };
-    return mockData[stationId] ?? 20.0; // Retorna 20.0 como valor padrão
+    return mockData[int] ?? 20.0; // Retorna 20.0 como valor padrão
   }
 
   List<Color> calculateBackgroundGradient(double temperature) {
@@ -76,9 +88,9 @@ class _MeasuresPageState extends State<MeasuresPage> {
   Widget build(BuildContext context) {
     // Mapear sensores para páginas
     final sensorPages = {
-      'precipitation': PrecipitationPage(station: widget.station),
+      'precipitation': PrecipitationPage(id: widget.station.id,),
       'temperature': TemperaturePage(id: widget.station.id),
-      'photo': PhotoPage(),
+      'photo': PhotoPage(id: widget.station.id),
     };
 
     final sensorDestinations = {
@@ -117,14 +129,22 @@ class _MeasuresPageState extends State<MeasuresPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.station.name),
-        backgroundColor: AppBarBackgroundColor(temperature),
+        title: Text(
+          widget.station.name, 
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: AppBarBackgroundColor(temperature),  // aqui ----------------------------------
       ),
       body: Container(
+        width: 100.w,
         height: 100.h,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: calculateBackgroundGradient(temperature),
+            colors: calculateBackgroundGradient(temperature),  // aqui ----------------------------------
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -157,9 +177,9 @@ class _MeasuresPageState extends State<MeasuresPage> {
           selectedIndex: currentPageIndex,
           destinations: availableDestinations,
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-          backgroundColor: AppBarBackgroundColor(temperature),
+          backgroundColor: AppBarBackgroundColor(temperature), // aqui ----------------------------------
           elevation: 4,
-          surfaceTintColor: AppBarBackgroundColor(temperature),
+          surfaceTintColor: AppBarBackgroundColor(temperature), // aqui ----------------------------------
         ),
       )
     : null,

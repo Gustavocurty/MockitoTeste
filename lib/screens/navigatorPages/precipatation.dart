@@ -1,68 +1,73 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:ghibli/services/estacao/classStation.dart';
+import 'package:ghibli/services/measures/preciptationClass.dart';
+import 'package:sizer/sizer.dart';
 
-class PrecipitationPage extends StatelessWidget {
-  final Measures station;
-
-  const PrecipitationPage({super.key, required this.station});
+class PrecipitationPage extends StatefulWidget {
+  final int id;
+  const PrecipitationPage({super.key, required this.id});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image.network(
-                  station.logo,
-                  width: 150,
-                  height: 150,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+  State<PrecipitationPage> createState() => _PrecipitationPageState();
+}
 
-            SizedBox(height: 16),
+class _PrecipitationPageState extends State<PrecipitationPage> {
+  final List<Preciptation> precMeasures = MockDatabase.getPreciptation();
 
-            Text(
-              'Localização: ${station.location}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-            ),
-
-            SizedBox(height: 8),
-
-            Text(
-              'Sensores disponíveis:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-            ),
-
-            SizedBox(height: 8),
-
-            ...station.sensors.map((sensor) => Text('- $sensor')),
-
-            SizedBox(height: 16),
-            
-            ElevatedButton(
-              onPressed: () {
-                // Acessar mais informações
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    content: Text('Acesse: ${station.infoUrl}'),
-                  ),
-                );
-              },
-              child: Text('Ver mais informações'),
-            ),
-          ],
-        ),
-      ),
+  Preciptation? getPreciptationById(int id) {
+    return precMeasures.firstWhere(
+      (prec) => prec.id == id,
+      // ignore: cast_from_null_always_fails
+      orElse: () => null as Preciptation,
     );
+  }
+  @override
+  Widget build(BuildContext context) {
+    final preciptation = getPreciptationById(widget.id);
+
+    return SizedBox(
+            width: 100.w,
+            height: 67.h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  preciptation!.data,
+                  style: TextStyle(color: Colors.white, fontSize: 7.w),
+                ),
+                Text(
+                  preciptation.horario,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10.w,
+                      fontWeight: FontWeight.bold),
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "Precipitação",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 6.5.w,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Icon(
+                      Icons.cloud_outlined,
+                      color: Colors.white,
+                      size: 35.w,
+                    ),
+                  ],
+                ),
+                Text(
+                  preciptation.valor,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10.5.w,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 }

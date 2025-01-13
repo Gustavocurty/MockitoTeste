@@ -1,4 +1,5 @@
 // ignore: file_names
+
 class Temperature {
   final int id;
   final String data;
@@ -13,7 +14,7 @@ class Temperature {
   });
 }
 
-class MockDatabase {
+class MockDatabaseTemp {
   static List<Temperature> getTemperature() {
     return [
       Temperature(
@@ -35,10 +36,10 @@ class MockDatabase {
         valor: "32°C"
       ),
       Temperature(
-        id: 4,
+        id: 5,
         data: "14/06/1976",
-        horario: "07h20",
-        valor: "22°C"
+        horario: "17h20",
+        valor: "30°C"
       ),
     ];
   }

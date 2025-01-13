@@ -54,8 +54,8 @@ class MockDatabase {
       ),
       Measures(
         id: 5,
-        name: "Estação Sudeoeste",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTBRp76PaB046iybc_0BbniiATDpRjYEwjhA&s",
+        name: "Estação Sudoeste",
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_KWZ_yWWu5m2mj8byIJy0pHjhmdUkL7YpFA&s",
         location: "Minas Gerais, MG",
         sensors: {"temperature", "photo", "precipitation"},
         infoUrl: "https://www.dio.me/articles/trabalhando-com-mocks-em-dart-um-guia-completo",
